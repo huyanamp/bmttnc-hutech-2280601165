@@ -3,37 +3,37 @@ class PlayFairCipher:
         pass 
     def _init__(self): 
         pass 
-    def create_playfair_matrix(self, key): 
-        key = key.replace("J", "I") # Chuyển "J" thành "I" trong khóa 
-        key = key.upper() 
-        key_set = set(key) 
-        alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ" 
-        remaining_letters = [ 
-            letter for letter in alphabet if letter not in key_set] 
-        matrix = list(key) 
-        
-        for letter in remaining_letters: 
-            matrix.append(letter) 
-            if len(matrix) == 25: 
-                break
-        playfair_matrix = [matrix[i:i+5] for i in range(0, len (matrix), 5)] 
-        return playfair_matrix 
-    def find_letter_coords(self, matrix, letter): 
-        for row in range(len(matrix)): 
-            for col in range(len(matrix[row])): 
-                if matrix[row][col] == letter: 
-                    return row, col
-    def playfair_encrypt(self, plain_text, matrix): 
-    # Chuyển "J" thành "I" trong văn bản đầu vào 
-        plain_text = plain_text.replace("J", "I") 
-        plain_text = plain_text.upper() 
-        encrypted_text = "" 
-        for i in range(0, len (plain_text), 2): 
-            pair = plain_text[i:i+2] 
-            if len(pair) == 1: # Xử lý nếu số lượng ký tự lẻ 
-                pair += "X" 
-            row1, col1 = self.find_letter_coords (matrix, pair [0]) 
-            row2, col2 = self.find_letter_coords(matrix, pair[1]) 
+    def create_playfair_matrix(self, key):
+        key = key.upper().replace("J", "I")
+        seen = set()
+        matrix = []
+        for char in key:
+            if char.isalpha() and char not in seen:
+                seen.add(char)
+                matrix.append(char)
+        for char in "ABCDEFGHIKLMNOPQRSTUVWXYZ":
+            if char not in seen:
+                matrix.append(char)
+        return [matrix[i:i + 5] for i in range(0, 25, 5)]
+
+    def find_letter_coords(self, matrix, letter):
+        for i in range(5):
+            for j in range(5):
+                if matrix[i][j] == letter:
+                    return i, j
+        return None
+
+    def playfair_encrypt(self, plain_text, matrix):
+        # Chuyển "J" thành "I" trong văn bản đầu vào
+        plain_text = plain_text.replace("J", "I")
+        plain_text = plain_text.upper()
+        encrypted_text = ""
+        for i in range(0, len (plain_text), 2):
+            pair = plain_text[i:i+2]
+            if len(pair) == 1: # Xử lý nếu số lượng ký tự lẻ
+                pair += "X"
+            row1, col1 = self.find_letter_coords (matrix, pair [0])
+            row2, col2 = self.find_letter_coords(matrix, pair[1])
             if row1 == row2: 
                 encrypted_text += matrix [row1] [(col1 + 1) % 5] + matrix[row2] [(col2 + 1) % 5] 
             elif col1 == col2:
