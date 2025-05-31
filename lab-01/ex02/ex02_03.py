@@ -1,7 +1,7 @@
 #Nhập số từ người dùng
-so = int(input("Nhập một số nguyên: "))
+so = int(input("Nhap mot so nguyen: "))
 #Kiểm tra xem số đó có phải số chẵn hay không
 if so % 2 == 0:
-    print(so, "là số chẵn.")
+    print(so, "la so chan.")
 else:
-    print(so, "không phải là số chẵn.")
+    print(so, "khong phai la so chan.")
