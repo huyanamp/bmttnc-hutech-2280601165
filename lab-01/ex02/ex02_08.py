@@ -6,7 +6,7 @@ def chia_het_cho_5(so_nhi_phan):
     if so_thap_phan % 5 == 0:
         return True
     else:
-        return False
+        return False 
 #Nhập chuỗi số nhị phân từ người dùng
 chuoi_so_nhi_phan = input("nhập chuỗi số nhị phân (phân tách bởi dấu phẩy):")
 #Tách chuỗi thành các số nhị phân và tìm kiểm tra số chia hết cho 5
